@@ -5,3 +5,6 @@
 
 [build.environment]
   NODE_VERSION = "22"
+  # Deze waarden zijn geen geheimen (publieke URL's en adressen) en staan ook in de code.
+  # Zonder deze regel breekt Netlify's secrets scan de build af. ADMIN_PASSWORD blijft gescand.
+  SECRETS_SCAN_OMIT_KEYS = "TICKETS_API_URL,NEXT_PUBLIC_SITE_URL,NOTIFY_EMAIL,RESEND_FROM"
