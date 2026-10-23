@@ -1,12 +1,15 @@
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { adminConfigured, isAdmin } from "@/lib/auth";
-import { LoginForm } from "./LoginForm";
+import { LoginForm, SetupForm } from "./LoginForm";
 
 export const metadata: Metadata = { title: "Inloggen" };
 
+export const dynamic = "force-dynamic";
+
 export default async function AdminLoginPage() {
   if (await isAdmin()) redirect("/admin/");
+  const configured = await adminConfigured();
   return (
     <main className="adm-login">
       <div className="adm-card">
@@ -19,7 +22,7 @@ export default async function AdminLoginPage() {
               <small>Beheer</small>
             </span>
           </div>
-          <LoginForm configured={adminConfigured()} />
+          {configured ? <LoginForm /> : <SetupForm />}
         </div>
       </div>
     </main>

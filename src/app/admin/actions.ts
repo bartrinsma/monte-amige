@@ -3,7 +3,16 @@
 import { revalidatePath } from "next/cache";
 import { cookies, headers } from "next/headers";
 import { redirect } from "next/navigation";
-import { ADMIN_COOKIE, adminConfigured, checkPassword, createSessionValue, requireAdmin } from "@/lib/auth";
+import {
+  ADMIN_COOKIE,
+  MIN_PASSWORD_LENGTH,
+  adminConfigured,
+  changePassword,
+  checkPassword,
+  requireAdmin,
+  setInitialPassword,
+  startSession,
+} from "@/lib/auth";
 import { overlaps } from "@/lib/bookings";
 import { parseDate } from "@/lib/dates";
 import { getDb } from "@/lib/db";
@@ -17,23 +26,37 @@ export interface LoginState {
   error?: string;
 }
 
-export async function login(_prev: LoginState | undefined, formData: FormData): Promise<LoginState> {
-  if (!adminConfigured()) return { error: "De admin staat uit: stel ADMIN_PASSWORD in op de server." };
-
+async function clientIp(): Promise<string> {
   const h = await headers();
-  const ip = h.get("x-nf-client-connection-ip") || h.get("x-forwarded-for")?.split(",")[0]?.trim() || "local";
-  if (!rateLimit(`admin-login:${ip}`, 8, 15 * 60 * 1000)) return { error: "Te veel pogingen. Probeer het over een kwartier opnieuw." };
+  return h.get("x-nf-client-connection-ip") || h.get("x-forwarded-for")?.split(",")[0]?.trim() || "local";
+}
 
-  if (!checkPassword(String(formData.get("password") ?? ""))) return { error: "Onjuist wachtwoord." };
+function passwordProblem(password: string, repeat: string): string | null {
+  if (password.length < MIN_PASSWORD_LENGTH) return `Kies een wachtwoord van minimaal ${MIN_PASSWORD_LENGTH} tekens.`;
+  if (password !== repeat) return "De twee wachtwoorden zijn niet gelijk.";
+  return null;
+}
 
-  const { value, maxAge } = createSessionValue();
-  (await cookies()).set(ADMIN_COOKIE, value, {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "lax",
-    path: "/",
-    maxAge,
-  });
+export async function login(_prev: LoginState | undefined, formData: FormData): Promise<LoginState> {
+  if (!(await adminConfigured())) return { error: "Er is nog geen wachtwoord ingesteld. Ververs de pagina." };
+  if (!rateLimit(`admin-login:${await clientIp()}`, 8, 15 * 60 * 1000)) {
+    return { error: "Te veel pogingen. Probeer het over een kwartier opnieuw." };
+  }
+  if (!(await checkPassword(String(formData.get("password") ?? "")))) return { error: "Onjuist wachtwoord." };
+
+  await startSession();
+  redirect("/admin/");
+}
+
+/** Eerste bezoek: de eigenaar kiest het wachtwoord. Werkt alleen zolang er nog geen is. */
+export async function setupPassword(_prev: LoginState | undefined, formData: FormData): Promise<LoginState> {
+  if (!rateLimit(`admin-setup:${await clientIp()}`, 5, 15 * 60 * 1000)) return { error: "Te veel pogingen." };
+  const password = String(formData.get("password") ?? "");
+  const problem = passwordProblem(password, String(formData.get("repeat") ?? ""));
+  if (problem) return { error: problem };
+  if (!(await setInitialPassword(password))) return { error: "Er is al een wachtwoord ingesteld. Ververs de pagina en log in." };
+
+  await startSession();
   redirect("/admin/");
 }
 
@@ -206,6 +229,19 @@ export async function saveTicketSettings(fd: FormData): Promise<void> {
   if (fd.get("clear_key") === "on") await setSetting("tickets_api_key", "");
   await setSetting("tickets_auto", fd.get("auto") === "on" ? "1" : "0");
   done(P, "Instellingen opgeslagen.");
+}
+
+export async function changeAdminPassword(fd: FormData): Promise<void> {
+  await requireAdmin();
+  const P = "/admin/instellingen/";
+  if (!(await checkPassword(String(fd.get("current") ?? "")))) done(P, "Het huidige wachtwoord klopt niet.", "fout");
+  const password = String(fd.get("password") ?? "");
+  const problem = passwordProblem(password, String(fd.get("repeat") ?? ""));
+  if (problem) done(P, problem, "fout");
+  await changePassword(password);
+  // Nieuw wachtwoord maakt alle sessies ongeldig; deze direct opnieuw starten.
+  await startSession();
+  done(P, "Wachtwoord gewijzigd.");
 }
 
 export async function testTickets(): Promise<void> {

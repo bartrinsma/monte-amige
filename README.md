@@ -4,7 +4,7 @@ Nabouw van monte-amigo.nl als Next.js-app, met een eigen beheeromgeving op `/adm
 
 ```bash
 npm install
-cp .env.example .env.local   # zet minimaal ADMIN_PASSWORD
+cp .env.example .env.local   # optioneel
 npm run dev                  # http://localhost:3000
 ```
 
@@ -20,7 +20,8 @@ npm run dev                  # http://localhost:3000
 | `/omgeving/` | Wat te doen in de omgeving (oude URL `/een-homepage-sectie/` stuurt door) |
 
 ## Beheer (`/admin`)
-Inloggen met `ADMIN_PASSWORD`.
+Bij het eerste bezoek aan `/admin` kies je een wachtwoord; dat wordt gehasht in de database opgeslagen.
+Wijzigen kan onder Instellingen. Er hoeft geen wachtwoord in Netlify te staan.
 
 - **Dashboard**: open aanvragen, komende verblijven, bezetting komende 90 dagen, recensies.
 - **Boekingen**: aanvragen van de website bevestigen of afwijzen, zelf periodes toevoegen
@@ -45,7 +46,6 @@ Voor een andere klantsite: dezelfde code met de API-key van die klant.
 
 ## Omgevingsvariabelen
 Zie `.env.example`. Belangrijk voor productie:
-- `ADMIN_PASSWORD`: zonder dit staat `/admin` dicht.
 - `DATABASE_URL` (of Netlify DB): blijvende Postgres. Zonder database-URL draait PGlite; dat is lokaal prima,
   maar op serverless hosting **niet blijvend**. De admin waarschuwt hiervoor.
 - `RESEND_API_KEY` + `NOTIFY_EMAIL`: e-mail bij een nieuwe reserveringsaanvraag (optioneel).

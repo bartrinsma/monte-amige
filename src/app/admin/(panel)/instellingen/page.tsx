@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { saveTicketSettings, testTickets } from "@/app/admin/actions";
+import { changeAdminPassword, saveTicketSettings, testTickets } from "@/app/admin/actions";
 import { Flash, PageHead, type SP } from "@/components/admin/ui";
 import { getDb } from "@/lib/db";
 import { ticketSettings } from "@/lib/settings";
@@ -61,6 +61,34 @@ export default async function InstellingenPage({ searchParams }: { searchParams:
               </button>
               <button className="adm-btn ghost" type="submit" formAction={testTickets} formNoValidate>
                 Verbinding testen
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div className="adm-card">
+        <div className="adm-card-body">
+          <h2>Wachtwoord wijzigen</h2>
+          <p className="lead">Na het wijzigen worden andere ingelogde apparaten uitgelogd.</p>
+          <form action={changeAdminPassword} className="adm-form">
+            <div className="adm-field">
+              <label htmlFor="current">Huidig wachtwoord</label>
+              <input id="current" name="current" type="password" required autoComplete="current-password" />
+            </div>
+            <div className="adm-grid2">
+              <div className="adm-field">
+                <label htmlFor="new-password">Nieuw wachtwoord</label>
+                <input id="new-password" name="password" type="password" required minLength={8} autoComplete="new-password" />
+              </div>
+              <div className="adm-field">
+                <label htmlFor="repeat">Herhaal nieuw wachtwoord</label>
+                <input id="repeat" name="repeat" type="password" required minLength={8} autoComplete="new-password" />
+              </div>
+            </div>
+            <div>
+              <button className="adm-btn" type="submit">
+                Wachtwoord wijzigen
               </button>
             </div>
           </form>
