@@ -1,11 +1,10 @@
 import type { Metadata } from "next";
 import { AgendaView } from "@/components/site/AgendaView";
 import { occupiedRanges } from "@/lib/bookings";
+import { pageMetadata } from "@/lib/site";
+import { Breadcrumbs } from "@/components/site/StructuredData";
 
-export const metadata: Metadata = {
-  title: "Agenda",
-  description: "Beschikbaarheid van vakantieappartement Monte Amigo in Cumbre del Sol.",
-};
+export const metadata: Metadata = pageMetadata("agenda");
 
 // Altijd de actuele bezetting uit de database tonen.
 export const dynamic = "force-dynamic";
@@ -14,6 +13,7 @@ export default async function AgendaPage() {
   const ranges = await occupiedRanges();
   return (
     <main id="content" className="site-content site-content--wide">
+      <Breadcrumbs page="agenda" name="Agenda" />
       <h1 className="page-title">Agenda</h1>
       <div className="entry-content">
         <p>

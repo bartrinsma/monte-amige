@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { changeAdminPassword, saveTicketSettings, testTickets } from "@/app/admin/actions";
+import { SettingsTabs } from "@/components/admin/SettingsTabs";
 import { Flash, PageHead, type SP } from "@/components/admin/ui";
 import { getDb } from "@/lib/db";
 import { ticketSettings } from "@/lib/settings";
@@ -13,6 +14,7 @@ export default async function InstellingenPage({ searchParams }: { searchParams:
   return (
     <>
       <PageHead title="Instellingen" sub="Koppeling met het ticketsysteem en technische gegevens." />
+      <SettingsTabs active="algemeen" />
       <Flash searchParams={searchParams} />
 
       {!db.persistent && (

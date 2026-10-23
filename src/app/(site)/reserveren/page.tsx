@@ -2,15 +2,15 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { CONTACT_EMAIL, reservationMailto } from "@/lib/rates";
+import { pageMetadata } from "@/lib/site";
+import { Breadcrumbs } from "@/components/site/StructuredData";
 
-export const metadata: Metadata = {
-  title: "Reserveren",
-  description: "Reserveer je vakantie in Monte Amigo, Cumbre del Sol: mail ons met het aantal personen en de gewenste data.",
-};
+export const metadata: Metadata = pageMetadata("reserveren");
 
 export default function ReserverenPage() {
   return (
     <main id="content" className="site-content">
+      <Breadcrumbs page="reserveren" name="Reserveren" />
       <h1 className="page-title">Reserveren</h1>
       <div className="entry-content">
         <p>

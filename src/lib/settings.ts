@@ -35,3 +35,23 @@ export async function ticketSettings(): Promise<TicketSettings> {
     auto: auto !== "0",
   };
 }
+
+export interface GoogleSettings {
+  /** Code uit de Search Console-metatag (google-site-verification). */
+  searchConsole: string;
+  /** Google Analytics 4-meet-ID, bijv. G-ABC123XYZ. */
+  analyticsId: string;
+}
+
+/** Google-koppelingen; bij een databasefout leeg, zodat de site gewoon blijft werken. */
+export async function googleSettings(): Promise<GoogleSettings> {
+  try {
+    const [searchConsole, analyticsId] = await Promise.all([
+      getSetting("google_site_verification"),
+      getSetting("google_analytics_id"),
+    ]);
+    return { searchConsole: searchConsole ?? "", analyticsId: analyticsId ?? "" };
+  } catch {
+    return { searchConsole: "", analyticsId: "" };
+  }
+}

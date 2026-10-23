@@ -1,13 +1,9 @@
 /* eslint-disable @next/next/no-img-element */
 import type { Metadata } from "next";
 import { HomeVideo } from "@/components/site/HomeVideo";
+import { pageMetadata } from "@/lib/site";
 
-export const metadata: Metadata = {
-  title: { absolute: "Monte Amigo – Cumbre del Sol" },
-  description:
-    "Luxe vakantieappartement voor 4/5 personen, hoog gelegen in Cumbre del Sol aan de Costa Blanca, met fantastisch uitzicht over de bergen en vallei.",
-  openGraph: { images: ["/img/balkon-uitzicht.jpg"] },
-};
+export const metadata: Metadata = pageMetadata("home");
 
 export default function HomePage() {
   return (

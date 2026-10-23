@@ -1,12 +1,8 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import type { Photo } from "@/lib/site";
 
-export interface Photo {
-  src: string;
-  alt: string;
-  wide?: boolean;
-}
 
 /** Fotogalerij met vergroting: pijltjes, swipe en Esc. */
 export function Gallery({ photos }: { photos: Photo[] }) {

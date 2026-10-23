@@ -1,25 +1,15 @@
 /* eslint-disable @next/next/no-img-element */
 import type { Metadata } from "next";
-import { Gallery, type Photo } from "@/components/site/Gallery";
+import { Gallery } from "@/components/site/Gallery";
+import { OMGEVING_PHOTOS, pageMetadata } from "@/lib/site";
+import { Breadcrumbs } from "@/components/site/StructuredData";
 
-export const metadata: Metadata = {
-  title: "Wat te doen in de omgeving?",
-  description:
-    "Wat te doen rond Cumbre del Sol en Moraira: stranden, bergdorpjes, attractieparken, golf, wielrennen en wandelen aan de Costa Blanca.",
-};
-
-const PHOTOS: Photo[] = [
-  { src: "/img/strand-moraira.jpg", alt: "Strand bij Moraira met zicht op de kaap" },
-  { src: "/img/zeilboten.jpg", alt: "Zeilboten voor de kust" },
-  { src: "/img/suppen.jpg", alt: "Suppen op zee bij zonsondergang" },
-  { src: "/img/wandelpad-kust.jpg", alt: "Wandelpad langs de kust" },
-  { src: "/img/rotsboog.jpg", alt: "Rotsboog aan de kust" },
-  { src: "/img/strand-kinderen.jpg", alt: "Spelende kinderen op het strand" },
-];
+export const metadata: Metadata = pageMetadata("omgeving");
 
 export default function OmgevingPage() {
   return (
     <main id="content" className="site-content">
+      <Breadcrumbs page="omgeving" name="Omgeving" />
       <h1 className="page-title">Wat te doen in de omgeving?</h1>
       <div className="entry-content">
         <p>
@@ -54,7 +44,7 @@ export default function OmgevingPage() {
           omgeving verkennen?
         </p>
 
-        <Gallery photos={PHOTOS} />
+        <Gallery photos={OMGEVING_PHOTOS} />
       </div>
     </main>
   );

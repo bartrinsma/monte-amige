@@ -1,39 +1,15 @@
 /* eslint-disable @next/next/no-img-element */
 import type { Metadata } from "next";
-import { Gallery, type Photo } from "@/components/site/Gallery";
+import { Gallery } from "@/components/site/Gallery";
+import { OVER_ONS_PHOTOS, pageMetadata } from "@/lib/site";
+import { Breadcrumbs } from "@/components/site/StructuredData";
 
-export const metadata: Metadata = {
-  title: "Vakantiehuis",
-  description:
-    "Ons luxe, compleet gerenoveerde 4/5 persoonsappartement in Cumbre del Sol: keuken, terras met loungebank, twee slaapkamers, airco, glasvezelinternet en drie zwembaden om de hoek.",
-};
-
-const PHOTOS: Photo[] = [
-  ["terras-1", "Overdekt terras met loungebank en uitzicht op de bergen"],
-  ["terras-2", "Terras met loungebank en buffetkast"],
-  ["balkon", "Balkon met ligstoelen en uitzicht over de vallei"],
-  ["terras-3", "Terras met loungebank naast de schuifpui"],
-  ["woonkamer", "Woon- en eetkamer met doorkijk naar het terras"],
-  ["woonkamer-2", "Zithoek met tv en open keuken"],
-  ["keuken", "Compleet ingerichte keuken"],
-  ["stapelbed-1", "Slaapkamer met stapelbed"],
-  ["stapelbed-2", "Slaapkamer met stapelbed en ladekast"],
-  ["badkamer", "Badkamer met douche"],
-  ["slaapkamer-1", "Slaapkamer met tweepersoonsbed en balkondeur"],
-  ["slaapkamer-2", "Slaapkamer met tweepersoonsbed"],
-  ["slaapkamer-3", "Slaapkamer met tweepersoonsbed en ladekast"],
-  ["zwembad-1", "Zwembad met uitzicht over de bergen"],
-  ["cumbre-del-sol-luchtfoto", "Cumbre del Sol van bovenaf met zee en kust"],
-  ["zwembad-vallei", "Zwembad met uitzicht over de vallei"],
-  ["rotsboog", "Rotsboog aan de kust"],
-  ["strand-kinderen", "Spelende kinderen op het strand"],
-  ["speeltuin", "Speeltuin in de buurt"],
-  ["appartement-buiten", "Buitenkant van het appartement met parkeerplaats voor de deur"],
-].map(([n, alt]) => ({ src: `/img/${n}.jpg`, alt, wide: n === "appartement-buiten" }));
+export const metadata: Metadata = pageMetadata("overOns");
 
 export default function OverOnsPage() {
   return (
     <main id="content" className="site-content">
+      <Breadcrumbs page="overOns" name="Over ons" />
       <figure className="featured-image">
         <img
           src="/img/balkon-uitzicht.jpg"
@@ -65,7 +41,7 @@ export default function OverOnsPage() {
           adviseren je wel om een auto te huren.
         </p>
 
-        <Gallery photos={PHOTOS} />
+        <Gallery photos={OVER_ONS_PHOTOS} />
       </div>
     </main>
   );

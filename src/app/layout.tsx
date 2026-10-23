@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
+import { PAGES, SITE_NAME, SITE_URL } from "@/lib/site";
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://monte-amigo.nl"),
-  title: { default: "Monte Amigo – Cumbre del Sol", template: "%s – Monte Amigo – Cumbre del Sol" },
+  metadataBase: new URL(SITE_URL),
+  title: { default: PAGES.home.title, template: `%s | ${SITE_NAME}` },
+  description: PAGES.home.description,
   icons: { icon: "/img/logo.png" },
 };
 

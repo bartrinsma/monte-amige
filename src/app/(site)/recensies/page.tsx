@@ -2,11 +2,10 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Stars } from "@/components/site/Stars";
 import { listReviews } from "@/lib/reviews";
+import { pageMetadata } from "@/lib/site";
+import { Breadcrumbs } from "@/components/site/StructuredData";
 
-export const metadata: Metadata = {
-  title: "Recensies",
-  description: "Wat gasten zeggen over vakantieappartement Monte Amigo in Cumbre del Sol.",
-};
+export const metadata: Metadata = pageMetadata("recensies");
 
 export const dynamic = "force-dynamic";
 
@@ -16,6 +15,7 @@ export default async function RecensiesPage() {
 
   return (
     <main id="content" className="site-content">
+      <Breadcrumbs page="recensies" name="Recensies" />
       <h1 className="page-title">Recensies</h1>
       <div className="entry-content">
         {reviews.length > 0 && (

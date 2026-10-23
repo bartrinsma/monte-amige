@@ -1,8 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import Link from "next/link";
 import { CONTACT_EMAIL } from "@/lib/rates";
-
-const MAPS_URL = "https://www.google.com/maps/search/?api=1&query=Cumbre+del+Sol%2C+Benitachell%2C+Spanje";
+import { BUSINESS } from "@/lib/site";
 
 export function SiteFooter() {
   return (
@@ -43,9 +42,9 @@ export function SiteFooter() {
           <address className="footer-address">
             Monte Amigo
             <br />
-            Urbanisatie Cumbre del Sol
+            {BUSINESS.streetAddress}
             <br />
-            03726 Benitachell (Alicante)
+            {BUSINESS.postalCode} {BUSINESS.locality} ({BUSINESS.region})
             <br />
             Costa Blanca, Spanje
           </address>
@@ -54,7 +53,7 @@ export function SiteFooter() {
             <li>Vliegveld Alicante ± 50 min</li>
             <li>Vliegveld Valencia ± 75 min</li>
           </ul>
-          <a href={MAPS_URL} target="_blank" rel="noopener noreferrer">
+          <a href={BUSINESS.mapsUrl} target="_blank" rel="noopener noreferrer">
             Bekijk op Google Maps ↗
           </a>
         </div>
@@ -64,7 +63,7 @@ export function SiteFooter() {
       <div className="footer-bottom">
         <div className="site-footer__inner">
           <p>
-            &copy; {new Date().getFullYear()} Monte Amigo &middot; Cumbre del Sol &middot; Licentie verhuur VT470686A
+            &copy; {new Date().getFullYear()} Monte Amigo &middot; Cumbre del Sol &middot; Licentie verhuur {BUSINESS.license}
           </p>
         </div>
       </div>

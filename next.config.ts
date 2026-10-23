@@ -13,7 +13,10 @@ const nextConfig: NextConfig = {
   outputFileTracingRoot: root,
   async redirects() {
     // Oude WordPress-URL van de omgevingspagina.
-    return [{ source: "/een-homepage-sectie/", destination: "/omgeving/", permanent: true }];
+    return [
+      { source: "/een-homepage-sectie", destination: "/omgeving/", permanent: true },
+      { source: "/een-homepage-sectie/", destination: "/omgeving/", permanent: true },
+    ];
   },
 };
 

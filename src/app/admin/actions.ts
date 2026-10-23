@@ -244,6 +244,27 @@ export async function changeAdminPassword(fd: FormData): Promise<void> {
   done(P, "Wachtwoord gewijzigd.");
 }
 
+export async function saveGoogleSettings(fd: FormData): Promise<void> {
+  await requireAdmin();
+  const P = "/admin/instellingen/google/";
+
+  // Search Console: de hele metatag plakken mag ook; we halen de code eruit.
+  const rawVerification = String(fd.get("search_console") ?? "").trim();
+  const verification = (/content=["']([^"']+)["']/i.exec(rawVerification)?.[1] ?? rawVerification).trim();
+  if (verification && !/^[A-Za-z0-9_-]{10,100}$/.test(verification)) {
+    done(P, "Dat lijkt geen geldige Search Console-code. Plak de metatag of alleen de code uit content=\"…\".", "fout");
+  }
+
+  const analyticsId = String(fd.get("analytics_id") ?? "").trim().toUpperCase();
+  if (analyticsId && !/^G-[A-Z0-9]{4,20}$/.test(analyticsId)) {
+    done(P, "Een Google Analytics 4-meet-ID begint met G-, bijvoorbeeld G-ABC123XYZ.", "fout");
+  }
+
+  await setSetting("google_site_verification", verification);
+  await setSetting("google_analytics_id", analyticsId);
+  done(P, "Google-koppelingen opgeslagen. Ze zijn direct actief op de website.");
+}
+
 export async function testTickets(): Promise<void> {
   await requireAdmin();
   const res = await testConnection();

@@ -360,3 +360,26 @@ a.adm-stat:hover { border-color: #c7d2e1; }
   border-radius: 6px;
   word-break: break-all;
 }
+
+/* ---------- Tabs ---------- */
+
+.adm-tabs {
+  display: flex;
+  gap: .25rem;
+  margin: -0.5rem 0 1.5rem;
+  border-bottom: 1px solid var(--a-line);
+  overflow-x: auto;
+}
+.adm-tabs a {
+  padding: .65rem 1rem;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  color: var(--a-muted);
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.adm-tabs a:hover { color: var(--a-text); }
+.adm-tabs a[aria-current="page"] { color: var(--a-primary); border-bottom-color: var(--a-primary); }
+.adm-steps { margin: .25rem 0 0; padding-left: 1.2rem; color: var(--a-muted); }
+.adm-steps li { margin: .25rem 0; }

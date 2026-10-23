@@ -19,6 +19,17 @@ npm run dev                  # http://localhost:3000
 | `/recensies/` | Recensies (uit de database) |
 | `/omgeving/` | Wat te doen in de omgeving (oude URL `/een-homepage-sectie/` stuurt door) |
 
+## SEO
+- Titels, meta-descriptions, foto's en sitemap-instellingen per pagina staan in `src/lib/site.ts`.
+- Elke pagina heeft een self-referencing canonical, Open Graph/Twitter-tags en `robots: index, follow`.
+- Alle URL's eindigen op een slash (`trailingSlash`); zonder slash volgt een 308-redirect.
+- `/robots.txt` (sluit `/admin/` uit) verwijst naar `/sitemap.xml`: XML-sitemap met image-extensie,
+  in de browser opgemaakt via `public/sitemap.xsl`.
+- Schema.org (JSON-LD): `WebSite` + `LodgingBusiness` op elke pagina, `BreadcrumbList` op subpagina's.
+- Domein voor canonicals/sitemap: `NEXT_PUBLIC_SITE_URL` (standaard `https://monte-amigo.nl`).
+- Google Search Console en Google Analytics 4 koppel je in de admin onder **Instellingen → Google koppelingen**.
+  Analytics gebruikt Consent Mode: zonder toestemming via de cookiemelding geen cookies.
+
 ## Beheer (`/admin`)
 Bij het eerste bezoek aan `/admin` kies je een wachtwoord; dat wordt gehasht in de database opgeslagen.
 Wijzigen kan onder Instellingen. Er hoeft geen wachtwoord in Netlify te staan.
@@ -31,7 +42,8 @@ Wijzigen kan onder Instellingen. Er hoeft geen wachtwoord in Netlify te staan.
   staan er bij de eerste start al in.
 - **Bugs melden** (`/admin/bug`): bug invoeren; die wordt automatisch een ticket op de to-do lijst in
   tickets.onlinemetbart.nl. Mislukt doorsturen, dan blijft de bug bewaard met een knop "Opnieuw doorsturen".
-- **Instellingen**: adres + API-sleutel van het ticketsysteem, automatisch doorsturen aan/uit, verbinding testen.
+- **Instellingen**: ticketsysteem (adres, API-sleutel, verbinding testen), wachtwoord wijzigen, en het tabblad
+  **Google koppelingen** (Search Console-verificatie en Analytics-meet-ID).
 
 ## Koppeling met tickets.onlinemetbart.nl
 1. In het ticketsysteem (repo `tickets-omb`, PR #4) moet de API live staan en de migratie

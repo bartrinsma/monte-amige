@@ -2,16 +2,15 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { RatesTable } from "@/components/site/RatesTable";
 import { CLEANING_FEE, DEPOSIT, MAX_NIGHTS, MIN_NIGHTS } from "@/lib/rates";
+import { pageMetadata } from "@/lib/site";
+import { Breadcrumbs } from "@/components/site/StructuredData";
 
-export const metadata: Metadata = {
-  title: "Tarieven",
-  description:
-    "Tarieven van Monte Amigo per maand: prijs per week en per nacht. Minimaal 2 nachten, exclusief €125 schoonmaakkosten en €200 borg.",
-};
+export const metadata: Metadata = pageMetadata("tarieven");
 
 export default function TarievenPage() {
   return (
     <main id="content" className="site-content">
+      <Breadcrumbs page="tarieven" name="Tarieven" />
       <h1 className="page-title">Tarieven</h1>
       <div className="entry-content">
         <RatesTable />
