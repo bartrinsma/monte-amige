@@ -547,7 +547,7 @@ a:hover, a:focus { color: #000; }
   .footer-grid { grid-template-columns: 1fr 1fr; }
 }
 @media (min-width: 62em) {
-  .footer-grid { grid-template-columns: 1.4fr 1fr 1fr .8fr; }
+  .footer-grid { grid-template-columns: 1.4fr 1fr 1fr; }
 }
 
 /* ---------- Groter scherm ---------- */

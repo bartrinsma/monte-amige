@@ -1,6 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
 import Link from "next/link";
-import { MENU } from "@/lib/menu";
 import { CONTACT_EMAIL } from "@/lib/rates";
 
 const MAPS_URL = "https://www.google.com/maps/search/?api=1&query=Cumbre+del+Sol%2C+Benitachell%2C+Spanje";
@@ -60,16 +59,6 @@ export function SiteFooter() {
           </a>
         </div>
 
-        <nav aria-label="Footermenu">
-          <h2 className="footer-title">Menu</h2>
-          <ul className="footer-list">
-            {MENU.map((m) => (
-              <li key={m.href}>
-                <Link href={m.href}>{m.label}</Link>
-              </li>
-            ))}
-          </ul>
-        </nav>
       </div>
 
       <div className="footer-bottom">
