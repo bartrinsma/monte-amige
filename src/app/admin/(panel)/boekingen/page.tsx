@@ -138,6 +138,7 @@ export default async function BoekingenPage({ searchParams }: { searchParams: SP
       <PageHead title="Boekingen" sub="Houd bij wanneer het appartement bezet of beschikbaar is. De agenda op de website past zich direct aan." />
       <Flash searchParams={searchParams} />
 
+      {requests.length > 0 && (
       <div className="adm-card">
         <div className="adm-card-head">
           <h2>Aanvragen via de website</h2>
@@ -175,6 +176,7 @@ export default async function BoekingenPage({ searchParams }: { searchParams: SP
           <p className="adm-empty">Geen openstaande aanvragen. Nieuwe aanvragen via het reserveringsformulier verschijnen hier.</p>
         )}
       </div>
+      )}
 
       <div className="adm-card">
         <div className="adm-card-body">

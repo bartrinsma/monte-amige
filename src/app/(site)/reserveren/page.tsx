@@ -1,36 +1,40 @@
 /* eslint-disable @next/next/no-img-element */
 import type { Metadata } from "next";
-import { BookingForm } from "@/components/site/BookingForm";
-import { occupiedRanges } from "@/lib/bookings";
-import { CONTACT_EMAIL } from "@/lib/rates";
+import Link from "next/link";
+import { CONTACT_EMAIL, reservationMailto } from "@/lib/rates";
 
 export const metadata: Metadata = {
   title: "Reserveren",
-  description:
-    "Reserveer je vakantie in Monte Amigo, Cumbre del Sol. Bekijk de beschikbaarheid en vraag direct je verblijf aan.",
+  description: "Reserveer je vakantie in Monte Amigo, Cumbre del Sol: mail ons met het aantal personen en de gewenste data.",
 };
 
-export const dynamic = "force-dynamic";
-
-export default async function ReserverenPage({ searchParams }: { searchParams: Promise<Record<string, string | string[]>> }) {
-  const [ranges, sp] = await Promise.all([occupiedRanges(), searchParams]);
-  const one = (v: string | string[] | undefined) => (Array.isArray(v) ? v[0] : v) ?? "";
-
+export default function ReserverenPage() {
   return (
     <main id="content" className="site-content">
       <h1 className="page-title">Reserveren</h1>
       <div className="entry-content">
         <p>
-          Wil jij zeker zijn van jouw heerlijke vakantie bij ons in Monte Amigo? Vul dan onderstaand formulier in zodat wij jouw
-          reservering kunnen bevestigen. Heb je nog vragen of stuur je liever een e-mail? Klik dan op de button linksonder of stuur
-          jouw e-mail naar <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>. Wij hopen je snel te verwelkomen!
+          Wil jij zeker zijn van jouw heerlijke vakantie bij ons in Monte Amigo? Stuur dan een e-mail naar{" "}
+          <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a> en geef aan <strong>met hoeveel personen</strong> je komt en{" "}
+          <strong>welke data</strong> (aankomst en vertrek) je wilt verblijven. Wij bevestigen jouw reservering zo snel mogelijk. Wij
+          hopen je snel te verwelkomen!
         </p>
+
+        <p>
+          <a className="btn" href={reservationMailto()}>
+            Mail naar {CONTACT_EMAIL}
+          </a>
+        </p>
+
+        <p>
+          Bekijk eerst de <Link href="/agenda/">agenda</Link> om te zien wanneer Monte Amigo beschikbaar is, en de{" "}
+          <Link href="/tarieven/">tarieven</Link>.
+        </p>
+
         <p>
           Ps. Wij zijn verplicht uw gegevens te registreren bij de Spaanse overheid. Daarvoor vragen wij van elke gast de naam,
           geboortedatum, nationaliteit, huisadres en paspoort/id-nummer.
         </p>
-
-        <BookingForm ranges={ranges} initialArrival={one(sp.aankomst)} initialDeparture={one(sp.vertrek)} />
 
         <figure className="after-form">
           <img

@@ -36,11 +36,11 @@ export default async function DashboardPage() {
       <PageHead title="Dashboard" sub="Overzicht van boekingen, recensies en meldingen." />
 
       <div className="adm-stats">
-        <Link href="/admin/boekingen/" className="adm-stat">
+        <Link href="/admin/bug/" className="adm-stat">
           <span className="label">
-            <span className="dot orange" /> Open aanvragen
+            <span className="dot orange" /> Bugs niet doorgestuurd
           </span>
-          <div className="value">{stats.requests}</div>
+          <div className="value">{stats.bugs}</div>
         </Link>
         <Link href="/admin/boekingen/" className="adm-stat">
           <span className="label">
@@ -65,6 +65,7 @@ export default async function DashboardPage() {
         </Link>
       </div>
 
+      {requests.length > 0 && (
       <div className="adm-card">
         <div className="adm-card-head">
           <h2>Nieuwe aanvragen</h2>
@@ -88,6 +89,7 @@ export default async function DashboardPage() {
           <p className="adm-empty">Geen openstaande aanvragen.</p>
         )}
       </div>
+      )}
 
       <div className="adm-card">
         <div className="adm-card-head">
@@ -112,11 +114,6 @@ export default async function DashboardPage() {
         )}
       </div>
 
-      {stats.bugs > 0 && (
-        <p className="adm-flash info">
-          {stats.bugs} bug{stats.bugs === 1 ? " is" : "s zijn"} nog niet als ticket doorgestuurd. <Link href="/admin/bug/">Bekijken</Link>
-        </p>
-      )}
     </>
   );
 }

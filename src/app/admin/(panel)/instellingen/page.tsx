@@ -100,8 +100,6 @@ export default async function InstellingenPage({ searchParams }: { searchParams:
           <h2>Systeem</h2>
           <p className="lead" style={{ marginBottom: 0 }}>
             Database: {db.kind === "postgres" ? "Postgres" : "PGlite (lokaal)"} · {db.persistent ? "blijvend" : "tijdelijk"}
-            <br />
-            Melding bij nieuwe aanvraag: {process.env.RESEND_API_KEY ? `per e-mail naar ${process.env.NOTIFY_EMAIL || "rentalmonteamigo@gmail.com"}` : "uit (geen RESEND_API_KEY)"}
           </p>
         </div>
       </div>

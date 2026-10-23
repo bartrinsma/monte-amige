@@ -24,7 +24,7 @@ export function SiteFooter() {
               <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
             </li>
             <li>
-              <Link href="/reserveren/">Reserveringsaanvraag doen</Link>
+              <Link href="/reserveren/">Reserveren</Link>
             </li>
             <li>
               <Link href="/agenda/">Beschikbaarheid bekijken</Link>

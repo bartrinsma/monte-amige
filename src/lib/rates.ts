@@ -43,3 +43,23 @@ export function priceFor(a: Date, b: Date) {
 }
 
 export const euro = (v: number) => "€" + v.toLocaleString("nl-NL");
+
+/** mailto-link voor een reserveringsaanvraag, optioneel met de gekozen datums al ingevuld. */
+export function reservationMailto(arrival?: string, departure?: string): string {
+  const subject = "Reserveringsaanvraag Monte Amigo";
+  const body = [
+    "Hallo Jeanine en Wim,",
+    "",
+    "Wij willen graag verblijven in Monte Amigo.",
+    "",
+    "Aantal personen: ",
+    `Aankomstdatum: ${arrival ?? ""}`,
+    `Vertrekdatum: ${departure ?? ""}`,
+    "",
+    "Naam: ",
+    "Telefoonnummer: ",
+    "",
+    "Met vriendelijke groet,",
+  ].join("\n");
+  return `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+}

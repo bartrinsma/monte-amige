@@ -17,8 +17,8 @@ export default async function AgendaPage() {
       <h1 className="page-title">Agenda</h1>
       <div className="entry-content">
         <p>
-          Hieronder zie je wanneer Monte Amigo nog beschikbaar is. Klik op je aankomst- en vertrekdatum om direct een reservering voor
-          die periode te starten.
+          Hieronder zie je wanneer Monte Amigo nog beschikbaar is. Klik op je aankomst- en vertrekdatum; dan kun je ons direct mailen met
+          die data om te reserveren.
         </p>
         <AgendaView ranges={ranges} />
       </div>

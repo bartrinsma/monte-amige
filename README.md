@@ -15,7 +15,7 @@ npm run dev                  # http://localhost:3000
 | `/over-ons/` | Vakantiehuis: beschrijving + fotogalerij (met vergroting) |
 | `/tarieven/` | Tarieventabel + voorwaarden |
 | `/agenda/` | Beschikbaarheid (uit de database) |
-| `/reserveren/` | Reserveringsformulier; aanvragen komen in de admin terecht |
+| `/reserveren/` | Uitleg + knop om te mailen met aantal personen en data |
 | `/recensies/` | Recensies (uit de database) |
 | `/omgeving/` | Wat te doen in de omgeving (oude URL `/een-homepage-sectie/` stuurt door) |
 
@@ -23,8 +23,8 @@ npm run dev                  # http://localhost:3000
 Bij het eerste bezoek aan `/admin` kies je een wachtwoord; dat wordt gehasht in de database opgeslagen.
 Wijzigen kan onder Instellingen. Er hoeft geen wachtwoord in Netlify te staan.
 
-- **Dashboard**: open aanvragen, komende verblijven, bezetting komende 90 dagen, recensies.
-- **Boekingen**: aanvragen van de website bevestigen of afwijzen, zelf periodes toevoegen
+- **Dashboard**: komende verblijven, bezetting komende 90 dagen, recensies.
+- **Boekingen**: periodes toevoegen
   (bevestigd of geblokkeerd), wijzigen en verwijderen. Alleen *bevestigd* en *geblokkeerd* maken de agenda bezet.
   Overlappende periodes worden geweigerd.
 - **Recensies**: toevoegen, wijzigen, verbergen/tonen en verwijderen. De 23 recensies van de oude site
@@ -48,7 +48,6 @@ Voor een andere klantsite: dezelfde code met de API-key van die klant.
 Zie `.env.example`. Belangrijk voor productie:
 - `DATABASE_URL` (of Netlify DB): blijvende Postgres. Zonder database-URL draait PGlite; dat is lokaal prima,
   maar op serverless hosting **niet blijvend**. De admin waarschuwt hiervoor.
-- `RESEND_API_KEY` + `NOTIFY_EMAIL`: e-mail bij een nieuwe reserveringsaanvraag (optioneel).
 
 ## Netlify
 Koppel project `monte-amigo` aan deze repo (branch `main`, base directory leeg); `netlify.toml` regelt de rest.
