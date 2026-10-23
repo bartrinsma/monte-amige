@@ -41,6 +41,7 @@ function ticketPayload(bug: Bug) {
     current_situation: bug.actual,
     desired_situation: bug.expected || null,
     target_url: bug.page_url || null,
+    reporter: bug.reporter || null,
     external_ref: `monte-amigo-bug-${bug.id}`,
   };
 }
@@ -87,15 +88,27 @@ export async function syncBug(id: number): Promise<{ ok: boolean; error?: string
 export async function testConnection(): Promise<{ ok: boolean; message: string }> {
   const cfg = await ticketSettings();
   if (!cfg.key) return { ok: false, message: "Vul eerst een API-sleutel in." };
+  const headers = { Authorization: `Bearer ${cfg.key}`, "Content-Type": "application/json" };
   try {
-    const res = await fetch(`${cfg.url}/api/v1/me`, {
-      headers: { Authorization: `Bearer ${cfg.key}` },
+    const me = await fetch(`${cfg.url}/api/v1/me`, { headers, signal: AbortSignal.timeout(10000), cache: "no-store" });
+    if (me.ok) {
+      const data = (await me.json().catch(() => ({}))) as { client?: { name?: string } };
+      return { ok: true, message: `Verbonden met klant "${data.client?.name ?? "onbekend"}".` };
+    }
+    if (me.status === 401) return { ok: false, message: "De API-sleutel is ongeldig of ingetrokken." };
+
+    // Ticketsysteem zonder /me: een leeg ticket wordt geweigerd (400) als de sleutel klopt, 401 als hij niet klopt.
+    const probe = await fetch(`${cfg.url}/api/v1/tickets`, {
+      method: "POST",
+      headers,
+      body: "{}",
       signal: AbortSignal.timeout(10000),
       cache: "no-store",
     });
-    const data = (await res.json().catch(() => ({}))) as { client?: { name?: string }; error?: string };
-    if (res.ok) return { ok: true, message: `Verbonden met klant "${data.client?.name ?? "onbekend"}".` };
-    return { ok: false, message: data.error || `Status ${res.status}.` };
+    if (probe.status === 400 || probe.status === 422) return { ok: true, message: "Verbonden: de API-sleutel is geldig." };
+    if (probe.status === 401) return { ok: false, message: "De API-sleutel is ongeldig of ingetrokken." };
+    if (probe.status === 404) return { ok: false, message: "Het ticketsysteem heeft (nog) geen API op dit adres." };
+    return { ok: false, message: `Onverwacht antwoord van het ticketsysteem (status ${probe.status}).` };
   } catch (e) {
     return { ok: false, message: `Niet bereikbaar: ${e instanceof Error ? e.message : "onbekende fout"}.` };
   }

@@ -33,13 +33,15 @@ Inloggen met `ADMIN_PASSWORD`.
 - **Instellingen**: adres + API-sleutel van het ticketsysteem, automatisch doorsturen aan/uit, verbinding testen.
 
 ## Koppeling met tickets.onlinemetbart.nl
-1. In het ticketsysteem: voer `supabase/migrations/0003_api_keys.sql` uit, open de klant en kies
-   **API-koppeling → Nieuwe sleutel**.
-2. Hier: **Instellingen** → plak de sleutel → **Verbinding testen**.
+1. In het ticketsysteem (repo `tickets-omb`, PR #4) moet de API live staan en de migratie
+   `supabase/migrations/0003_api_keys.sql` in Supabase zijn uitgevoerd.
+2. Daar als admin: menu **API-keys** → key aanmaken voor de klant Monte Amigo → key (`omb_…`) kopiëren.
+3. Hier: **Instellingen** → key plakken → **Opslaan** → **Verbinding testen**.
 
-Elke bug wordt `POST /api/v1/tickets` met titel "Bug: …", de beschrijving, verwachting, pagina en prioriteit.
-`external_ref` (`monte-amigo-bug-<id>`) voorkomt dubbele tickets bij opnieuw versturen.
-Voor een andere klantsite: dezelfde code met de API-sleutel van die klant.
+Elke bug wordt `POST /api/v1/tickets` met titel "Bug: …", de beschrijving, verwachting, pagina, prioriteit en melder.
+De verbindingstest gebruikt `GET /api/v1/me` als die bestaat, en anders een leeg ticket dat het ticketsysteem
+weigert (400 = sleutel geldig, 401 = ongeldig); er wordt dan dus geen ticket aangemaakt.
+Voor een andere klantsite: dezelfde code met de API-key van die klant.
 
 ## Omgevingsvariabelen
 Zie `.env.example`. Belangrijk voor productie:
