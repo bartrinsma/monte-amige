@@ -1,4 +1,4 @@
-# Netlify: stel bij "Base directory" monte-amigo in.
+# Netlify: base directory leeg laten; de app staat in de hoofdmap van deze repo.
 [build]
   command = "npm run build"
   publish = ".next"

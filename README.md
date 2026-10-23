@@ -1,10 +1,8 @@
 # Monte Amigo – website + beheer
 
 Nabouw van monte-amigo.nl als Next.js-app, met een eigen beheeromgeving op `/admin`.
-Losse app in deze map (eigen `package.json`); los van Luuk.si in de rest van de repo.
 
 ```bash
-cd monte-amigo
 npm install
 cp .env.example .env.local   # zet minimaal ADMIN_PASSWORD
 npm run dev                  # http://localhost:3000
@@ -51,7 +49,7 @@ Zie `.env.example`. Belangrijk voor productie:
 - `RESEND_API_KEY` + `NOTIFY_EMAIL`: e-mail bij een nieuwe reserveringsaanvraag (optioneel).
 
 ## Netlify
-Nieuwe site uit deze repo met **Base directory** `monte-amigo`; `netlify.toml` regelt de rest.
+Koppel project `monte-amigo` aan deze repo (branch `main`, base directory leeg); `netlify.toml` regelt de rest.
 
 ## Nog te doen
 - **Foto's**: `public/img/` bevat uitsneden uit schermafbeeldingen, omdat monte-amigo.nl vanuit de bouwomgeving
